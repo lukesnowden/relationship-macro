@@ -1,0 +1,21 @@
+{
+  "name": "lukesnowden/relationship-macros",
+  "license": "MIT",
+  "type": "project",
+  "require": {
+    "laravel/framework": "5.*"
+  },
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Lukesnowden\\": "src/"
+    }
+  },
+  "scripts": {
+  },
+  "config": {
+    "preferred-install": "dist",
+    "secure-http" : false
+  }
+}
