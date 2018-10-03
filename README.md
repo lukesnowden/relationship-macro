@@ -62,7 +62,7 @@ You can now use the relationship natively using both the eloquent and query buil
     ...
 @endif
 
-{{ You have {{ $customer->orders()->count() }} orders
+You have {{ $customer->orders()->count() }} orders
 ```
 
 
