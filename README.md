@@ -65,16 +65,18 @@ You can now use the relationship natively using both the eloquent and query buil
 You have {{ $customer->orders()->count() }} orders
 ```
 
-You can also use a whole class to store your relationships and add them in one go;
+You can also use a whole class to store your relationships and add them in one go, note that all methods must return a `Closure`.
 
 ```php
 <?php
 
 class MyRelationships {
     
-    public function orders()
+    public function orders() : \Closure
     {
-        return $this->hasMany( Order::class, 'customer_id' );
+        return function() {
+            return $this->hasMany( Order::class, 'customer_id' );
+        };
     }
     
 }
@@ -82,7 +84,11 @@ class MyRelationships {
 Customer::relationshipMacros( new MyRelationships );
 ```
 
+### Credits
 
+[spatie/macroable](https://github.com/spatie/macroable)
+
+This trait is a altered version of the Macroable package to work with Laravel Models.
 
 ## MIT License
 
