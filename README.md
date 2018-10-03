@@ -57,11 +57,10 @@ class AppServiceProvider extends ServiceProvider
 
 You can now use the relationship natively using both the eloquent and query builder;
 
-```cli
+```blade
 @if( $customer->orders->isEmtpy() )
     ...
 @endif
 
 {{ You have {{ $customer->orders()->count() }} orders
-
 ```
