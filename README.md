@@ -38,14 +38,14 @@ use Some\Other\Models\Order;
 class AppServiceProvider extends ServiceProvider
 {
 
-	/**
-	 * Bootstrap any application services.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
-
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+    
         Customer::relationshipMacro( 'orders', function() {
             return $this->hasMany( Order::class, 'customer_id' );
         });
