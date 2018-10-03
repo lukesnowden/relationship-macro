@@ -9,7 +9,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Lukesnowden\\": "src/"
+      "Lukesnowden\\RelationshipMacros\\": "src/"
     }
   },
   "scripts": {

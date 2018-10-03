@@ -1,10 +1,10 @@
 <?php
 
-namespace Lukesnowden\Traits;
+namespace Lukesnowden\RelationshipMacros\Traits;
 
 use Closure;
 
-trait RelationshipMacros
+trait Macro
 {
 
     /**
