@@ -48,16 +48,10 @@ trait Macro
      */
     public function __call( $method, $parameters )
     {
-        if( in_array( $method, [ 'increment', 'decrement' ] ) ) {
-            return call_user_func_array( [ $this, $method ], $parameters );
-        }
-        $query = $this->newQuery();
-        if( method_exists( $query, $method ) ) {
-            return call_user_func_array( [ $query, $method ], $parameters );
-        }
         if( isset( static::$relationshipMacros[ $method ] ) ) {
             return $this->loadRelationshipMacro( $method, false );
         }
+        return parent::__call( $method, $parameters );
     }
 
     /**
