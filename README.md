@@ -65,6 +65,24 @@ You can now use the relationship natively using both the eloquent and query buil
 You have {{ $customer->orders()->count() }} orders
 ```
 
+You can also use a whole class to store your relationships and add them in one go;
+
+```php
+<?php
+
+class MyRelationships {
+    
+    public function orders()
+    {
+        return $this->hasMany( Order::class, 'customer_id' );
+    }
+    
+}
+
+Customer::relationshipMacros( new MyRelationships );
+```
+
+
 
 ## MIT License
 

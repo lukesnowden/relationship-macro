@@ -3,6 +3,8 @@
 namespace Lukesnowden\RelationshipMacros\Traits;
 
 use Closure;
+use ReflectionClass;
+use ReflectionMethod;
 
 trait Macro
 {
@@ -63,7 +65,7 @@ trait Macro
      * @param bool $getResults
      * @return mixed
      */
-    protected function loadRelationshipMacro( string $method, $getResults = true )
+    protected function loadRelationshipMacro( $method, $getResults = true )
     {
         $macro = static::$relationshipMacros[ $method ];
         if( $macro instanceof Closure ) {
@@ -73,6 +75,20 @@ trait Macro
                 return $results;
             }
             return $relations;
+        }
+    }
+
+    /**
+     * @param $class
+     * @throws \ReflectionException
+     * @return void
+     */
+    public static function relationshipMacros( $class )
+    {
+        $methods = ( new ReflectionClass( $class ) )->getMethods( ReflectionMethod::IS_PUBLIC | ReflectionMethod::IS_PROTECTED );
+        foreach( $methods as $method ) {
+            $method->setAccessible( true );
+            self::relationshipMacro( $method->name, $method->invoke( $class ) );
         }
     }
 
