@@ -5,6 +5,7 @@ namespace Lukesnowden\RelationshipMacros\Traits;
 use Closure;
 use ReflectionClass;
 use ReflectionMethod;
+use Illuminate\Support\Str;
 
 trait Macro
 {
@@ -63,7 +64,7 @@ trait Macro
     {
         $macro = static::$relationshipMacros[ $method ];
         if( $macro instanceof Closure ) {
-            $relations = call_user_func_array( $macro->bindTo( $this, static::class ), [] );
+            $relations = call_user_func_array( $macro->bindTo( $this, static::class ), [ $this->query() ] );
             if( $getResults ) {
                 $this->setRelation( $method, $results = $relations->getResults() );
                 return $results;
@@ -83,6 +84,33 @@ trait Macro
         foreach( $methods as $method ) {
             $method->setAccessible( true );
             self::relationshipMacro( $method->name, $method->invoke( $class ) );
+        }
+    }
+
+    /**
+     * Get a new query builder for the model's table.
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function newQuery()
+    {
+        $builder = $this->newQueryWithoutScopes();
+        foreach ($this->getGlobalScopes() as $identifier => $scope) {
+            $builder->withGlobalScope($identifier, $scope);
+        }
+        $this->applyNewScopes( $builder );
+        return $builder;
+    }
+
+    /**
+     * @param $builder
+     */
+    protected function applyNewScopes( $builder )
+    {
+        foreach( self::$relationshipMacros as $name => $closure ) {
+            if( Str::startsWith( $name, 'scope' ) ) {
+                $builder->macro( lcfirst( Str::replaceFirst( 'scope', '', $name ) ), $closure );
+            }
         }
     }
 
