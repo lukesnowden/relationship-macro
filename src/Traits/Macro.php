@@ -64,6 +64,7 @@ trait Macro
     {
         $macro = static::$relationshipMacros[ $method ];
         if( $macro instanceof Closure ) {
+            unset( static::$relationshipMacros[ $method ] );
             $relations = call_user_func_array( $macro->bindTo( $this, static::class ), [] );
             if( $getResults ) {
                 $this->setRelation( $method, $results = $relations->getResults() );
